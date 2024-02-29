@@ -1,0 +1,26 @@
+# Compiled Java class files
+*.class
+
+# Log files
+*.log
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+Maven files
+dependency-reduced-pom.xml
+
+# Maven target directory
+target/
+
+# Gradle build directory
+build/
+
+# Compiled plugin JAR files
+*.jar

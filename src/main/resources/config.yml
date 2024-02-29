@@ -1,0 +1,14 @@
+disable-tnt:
+  enabled: true
+  worlds: # Name of folder
+    - 'world'
+
+scoreboard:
+  enabled: true
+  title: '&cThis is a Title'
+  lines:
+    - '&7--------------------'
+    - '&cThis is a line!'
+    - ''
+    - '&7play.goodasssub.com'
+    - '&7--------------------'

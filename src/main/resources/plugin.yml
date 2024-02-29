@@ -1,0 +1,8 @@
+name: Main
+version: '${project.version}'
+main: com.goodasssub.smp.Main
+api-version: '1.20'
+authors: [BotMert]
+description: SMP Plugin for play.goodasssub.com
+depend:
+  - PlaceholderAPI
