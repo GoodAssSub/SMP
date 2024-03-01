@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ScoreboardAdapter implements AssembleAdapter {
 
@@ -18,7 +19,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
     @Override
     public String getTitle(Player player) {
-        return CC.translate(plugin.getConfig().getString("scoreboard.title"));
+        return CC.translate(Objects.requireNonNullElse(plugin.getConfig().getString("scoreboard.title"), "None"));
     }
 
     @Override

@@ -1,4 +1,4 @@
-name: Main
+name: SMP
 version: '${project.version}'
 main: com.goodasssub.smp.Main
 api-version: '1.20'

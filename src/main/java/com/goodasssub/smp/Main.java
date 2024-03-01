@@ -1,7 +1,10 @@
 package com.goodasssub.smp;
 
+import com.goodasssub.smp.commands.ConfigCommand;
 import com.goodasssub.smp.listeners.TNTListener;
+import com.goodasssub.smp.listeners.ChatListener;
 import com.goodasssub.smp.scoreboard.ScoreboardAdapter;
+import com.goodasssub.smp.listeners.SpawnProtectionListener;
 import io.github.thatkawaiisam.assemble.Assemble;
 import io.github.thatkawaiisam.assemble.AssembleStyle;
 
@@ -22,6 +25,15 @@ public final class Main extends JavaPlugin {
         if (getConfig().getBoolean("disable-tnt.enabled")) {
             getServer().getPluginManager().registerEvents(new TNTListener(this), this);
         }
+        if (getConfig().getInt("spawn.protection.radius") > 0) {
+            getServer().getPluginManager().registerEvents(new SpawnProtectionListener(this), this);
+        }
+        if (getConfig().getBoolean("chat-format.enabled")) {
+            getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        }
+
+        // Commands
+        this.getCommand("kit").setExecutor(new ConfigCommand(this));
 
         // Scoreboard
         if (getConfig().getBoolean("scoreboard.enabled")) {

@@ -1,10 +1,13 @@
 package com.goodasssub.smp.listeners;
 
 import com.goodasssub.smp.Main;
+import com.goodasssub.smp.util.CC;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.List;
@@ -18,17 +21,27 @@ public class TNTListener implements Listener {
     }
 
     @EventHandler
-    private void onEntityExplodeEvent(EntityExplodeEvent event) {
+    public void onEntityExplodeEvent(EntityExplodeEvent event) {
         if (event.getLocation().getWorld() == null) return;
-        if (!worldInConfig(event.getLocation().getWorld())) return;
+        if (tntWorldNotInConfig(event.getLocation().getWorld())) return;
 
         if (event.getEntityType().equals(EntityType.PRIMED_TNT)) {
             event.setCancelled(true);
         }
     }
 
-    private boolean worldInConfig(World world) {
+    @EventHandler
+    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+        if (event.getBlock().getLocation().getWorld() == null) return;
+        if (tntWorldNotInConfig(event.getBlock().getLocation().getWorld())) return;
+
+        if (event.getBlock().getType().equals(Material.TNT)) {
+            event.getPlayer().sendMessage(CC.translate(plugin.getConfig().getString("disable-tnt.message")));
+        }
+    }
+
+    private boolean tntWorldNotInConfig(World world) {
         List<String> worldNames = plugin.getConfig().getStringList("disable-tnt.worlds");
-        return worldNames.contains(world.getName());
+        return !worldNames.contains(world.getName());
     }
 }
