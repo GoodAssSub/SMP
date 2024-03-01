@@ -22,6 +22,11 @@ public class MainCommand implements CommandExecutor {
             return true;
         }
 
+        if (!sender.hasPermission("smp.temp")) {
+            sender.sendMessage(CC.translate("&cNo permission."));
+            return false;
+        };
+
         if (commandName.equalsIgnoreCase("reload")) {
             sender.sendMessage(CC.translate("&eConfig reloading..."));
             long startTime = System.currentTimeMillis();

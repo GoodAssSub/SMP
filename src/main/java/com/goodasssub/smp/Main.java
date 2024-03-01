@@ -24,7 +24,6 @@ public final class Main extends JavaPlugin {
             TODO: adventure api support for minimessages
         */
 
-
         // Config
         getLogger().info("Initializing Config...");
         saveDefaultConfig();

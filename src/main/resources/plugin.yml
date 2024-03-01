@@ -6,3 +6,6 @@ authors: [BotMert]
 description: SMP Plugin for play.goodasssub.com
 depend:
   - PlaceholderAPI
+commands:
+  smp:
+    description: main smp command
