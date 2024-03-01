@@ -1,6 +1,6 @@
 package com.goodasssub.smp;
 
-import com.goodasssub.smp.commands.ConfigCommand;
+import com.goodasssub.smp.commands.MainCommand;
 import com.goodasssub.smp.listeners.TNTListener;
 import com.goodasssub.smp.listeners.ChatListener;
 import com.goodasssub.smp.scoreboard.ScoreboardAdapter;
@@ -20,6 +20,11 @@ public final class Main extends JavaPlugin {
         getLogger().info("Starting...");
         instance = this;
 
+        /*
+            TODO: adventure api support for minimessages
+        */
+
+
         // Config
         getLogger().info("Initializing Config...");
         saveDefaultConfig();
@@ -37,7 +42,7 @@ public final class Main extends JavaPlugin {
         }
 
         // Commands
-        this.getCommand("kit").setExecutor(new ConfigCommand());
+        this.getCommand("smp").setExecutor(new MainCommand());
 
         // Scoreboard
         if (getConfig().getBoolean("scoreboard.enabled")) {
@@ -46,7 +51,6 @@ public final class Main extends JavaPlugin {
             assemble.setTicks(20);
             assemble.setAssembleStyle(AssembleStyle.MODERN);
         }
-
     }
 
     @Override

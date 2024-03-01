@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class ConfigCommand implements CommandExecutor {
+public class MainCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -18,16 +18,16 @@ public class ConfigCommand implements CommandExecutor {
         String commandName = args[0];
 
         if (commandName.equalsIgnoreCase("help")) {
-            sender.sendMessage("&6/smp reload - Reload the config.yml for SMP plugin.");
+            sender.sendMessage(CC.translate("&6/smp reload - Reload the config.yml for SMP plugin."));
             return true;
         }
 
         if (commandName.equalsIgnoreCase("reload")) {
-            sender.sendMessage("&eConfig reloading...");
+            sender.sendMessage(CC.translate("&eConfig reloading..."));
             long startTime = System.currentTimeMillis();
             Main.getInstance().reloadConfig();
             long endTime = System.currentTimeMillis();
-            sender.sendMessage("&eConfig reloaded after " + (endTime - startTime) + "ms");
+            sender.sendMessage(CC.translate("&eConfig reloaded after " + (endTime - startTime) + "ms"));
             return true;
         }
 

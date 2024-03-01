@@ -1,29 +1,30 @@
 spawn:
   protection:
     radius: 10 # Set to 0 for none
-    message: '&cYou cannot do this in spawn protection!' # message sent when cancelling an event
+    message: "&cYou cannot do this in spawn protection!" # message sent when cancelling an event
 
 chat-format:
   enabled: true
-  player-message: 'placeholder'
-  join-message: 'placeholder'
-  leave-message: 'placeholder'
+  player-message: "placeholder"
+  join-message: "placeholder"
+  leave-message: "placeholder"
 
 disable-tnt:
   enabled: true
-  message: ''
+  message: ""
   worlds: # Name of folder
-    - 'world'
+    - "world"
 
 # placeholders
 # {spawnprotection}: equals true if player has spawn protection
 
 scoreboard:
   enabled: true
-  title: '&cThis is a Title'
+  title: "&cTitle &7| &fServer"
   lines:
-    - '&7&m--------------------'
-    - '&c{spawnprotection}!'
-    - ''
-    - '&7play.goodasssub.com'
-    - '&7&m--------------------'
+    - "&7&m--------------------"
+    - "Online: &f{onlineplayers}!"
+    #    - '&c{spawnprotection}!' Not implemented
+    - ""
+    - "&7play.goodasssub.com"
+    - "&7&m--------------------"
