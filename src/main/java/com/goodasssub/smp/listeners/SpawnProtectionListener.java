@@ -15,13 +15,7 @@ import java.util.Objects;
 
 public class SpawnProtectionListener  implements Listener {
 
-    Main plugin;
-
-    int spawnProtectionRadius = plugin.getConfig().getInt("spawn.protection");
-
-    public SpawnProtectionListener(Main plugin) {
-        this.plugin = plugin;
-    }
+    int spawnProtectionRadius = Main.getInstance().getConfig().getInt("spawn.protection");
 
     // TODO: check if water flow
     //@EventHandler
@@ -34,7 +28,7 @@ public class SpawnProtectionListener  implements Listener {
 
         if (SpawnUtil.isLocationInSpawnProtection(location, spawnProtectionRadius)) {
             player.sendMessage(CC.translate(
-                Objects.requireNonNullElse(plugin.getConfig().getString("spawn.protection.message"),
+                Objects.requireNonNullElse(Main.getInstance().getConfig().getString("spawn.protection.message"),
                 "Spawn protection message not set in config.yml")
             ));
             event.setCancelled(true);
@@ -48,7 +42,7 @@ public class SpawnProtectionListener  implements Listener {
 
         if (SpawnUtil.isLocationInSpawnProtection(location, spawnProtectionRadius)) {
             player.sendMessage(CC.translate(
-                Objects.requireNonNullElse(plugin.getConfig().getString("spawn.protection.message"),
+                Objects.requireNonNullElse(Main.getInstance().getConfig().getString("spawn.protection.message"),
                     "Spawn protection message not set in config.yml")
             ));
             event.setCancelled(true);
@@ -63,7 +57,7 @@ public class SpawnProtectionListener  implements Listener {
         if (SpawnUtil.isLocationInSpawnProtection(location, spawnProtectionRadius)) {
             event.setCancelled(true);
             player.sendMessage(CC.translate(
-                Objects.requireNonNullElse(plugin.getConfig().getString("spawn.protection.message"),
+                Objects.requireNonNullElse(Main.getInstance().getConfig().getString("spawn.protection.message"),
                     "Spawn protection message not set in config.yml")
             ));
 
@@ -80,7 +74,7 @@ public class SpawnProtectionListener  implements Listener {
 
             if (player == null) return;
             player.sendMessage(CC.translate(
-                Objects.requireNonNullElse(plugin.getConfig().getString("spawn.protection.message"),
+                Objects.requireNonNullElse(Main.getInstance().getConfig().getString("spawn.protection.message"),
                     "Spawn protection message not set in config.yml")
             ));
         }

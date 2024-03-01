@@ -14,12 +14,6 @@ import java.util.List;
 
 public class TNTListener implements Listener {
 
-    Main plugin;
-
-    public TNTListener(Main plugin) {
-        this.plugin = plugin;
-    }
-
     @EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent event) {
         if (event.getLocation().getWorld() == null) return;
@@ -36,12 +30,12 @@ public class TNTListener implements Listener {
         if (tntWorldNotInConfig(event.getBlock().getLocation().getWorld())) return;
 
         if (event.getBlock().getType().equals(Material.TNT)) {
-            event.getPlayer().sendMessage(CC.translate(plugin.getConfig().getString("disable-tnt.message")));
+            event.getPlayer().sendMessage(CC.translate(Main.getInstance().getConfig().getString("disable-tnt.message")));
         }
     }
 
     private boolean tntWorldNotInConfig(World world) {
-        List<String> worldNames = plugin.getConfig().getStringList("disable-tnt.worlds");
+        List<String> worldNames = Main.getInstance().getConfig().getStringList("disable-tnt.worlds");
         return !worldNames.contains(world.getName());
     }
 }

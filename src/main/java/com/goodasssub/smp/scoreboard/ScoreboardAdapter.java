@@ -11,20 +11,14 @@ import java.util.Objects;
 
 public class ScoreboardAdapter implements AssembleAdapter {
 
-    Main plugin;
-
-    public ScoreboardAdapter(Main plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     public String getTitle(Player player) {
-        return CC.translate(Objects.requireNonNullElse(plugin.getConfig().getString("scoreboard.title"), "None"));
+        return CC.translate(Objects.requireNonNullElse(Main.getInstance().getConfig().getString("scoreboard.title"), "None"));
     }
 
     @Override
     public List<String> getLines(Player player) {
-        return new ArrayList<>(plugin.getConfig().getStringList("scoreboard.lines"));
+        return new ArrayList<>(Main.getInstance().getConfig().getStringList("scoreboard.lines"));
     }
 
 }

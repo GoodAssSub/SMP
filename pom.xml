@@ -73,5 +73,11 @@
             <version>2.11.5</version> <!-- Replace with the version you want to use -->
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

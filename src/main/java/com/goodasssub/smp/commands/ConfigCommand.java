@@ -8,12 +8,6 @@ import org.bukkit.command.CommandSender;
 
 public class ConfigCommand implements CommandExecutor {
 
-    Main plugin;
-
-    public ConfigCommand(Main plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
@@ -31,7 +25,7 @@ public class ConfigCommand implements CommandExecutor {
         if (commandName.equalsIgnoreCase("reload")) {
             sender.sendMessage("&eConfig reloading...");
             long startTime = System.currentTimeMillis();
-            plugin.reloadConfig();
+            Main.getInstance().reloadConfig();
             long endTime = System.currentTimeMillis();
             sender.sendMessage("&eConfig reloaded after " + (endTime - startTime) + "ms");
             return true;
