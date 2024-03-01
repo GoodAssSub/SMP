@@ -22,9 +22,9 @@ scoreboard:
   enabled: true
   title: "&cTitle &7| &fServer"
   lines:
-    - "&7&m--------------------"
-    - "Online: &f{onlineplayers}!"
+    - "&7&m                    "
+    - "&cOnline: &f%onlineplayers%"
     #    - '&c{spawnprotection}!' Not implemented
     - ""
     - "&7play.goodasssub.com"
-    - "&7&m--------------------"
+    - "&7&m                    "
