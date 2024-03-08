@@ -28,7 +28,7 @@ public class NowPlayingListener implements Listener {
 
         Player player = event.getPlayer();
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            Profile profile = Profile.getProfile(player.getUniqueId());
+            Profile profile = Profile.getProfile(player.getUniqueId().toString());
 
             if (profile.getLastFmUsername() == null) {
                 PlayerUtil.sendMessage(player, "&cYou do not have a lastfm username set. \nSet it with .login <username>");

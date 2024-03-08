@@ -5,6 +5,7 @@ import com.goodasssub.smp.util.CC;
 import com.goodasssub.smp.util.SpawnUtil;
 import io.github.thatkawaiisam.assemble.AssembleAdapter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ public class ScoreboardAdapter implements AssembleAdapter {
             TODO: %server-ip% placeholder
          */
 
-
         // lazy
         for (int i = 0; i < lines.size(); i++) {
             String original = lines.get(i);
@@ -35,7 +35,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
             String replaced = original.replace("%online-players%", onlinePlayers);
 
             int spawnProtectionRadius = Main.getInstance().getConfig().getInt("spawn.protection.radius");
-            boolean spawnProtected = SpawnUtil.isLocationInSpawnProtection(player.getLocation(), spawnProtectionRadius);
+            boolean spawnProtected = SpawnUtil.isEntityInSpawnProtection(player, spawnProtectionRadius);
             replaced = replaced.replace("%spawn-protection%", spawnProtected ? "&eEnabled" : "&cDisabled");
 
             lines.set(i, replaced);

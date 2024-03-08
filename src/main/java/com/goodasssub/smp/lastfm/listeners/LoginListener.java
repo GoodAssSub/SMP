@@ -29,18 +29,18 @@ public class LoginListener implements Listener {
 
         String username = args[1];
 
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            if (event.getMessage().length() > 30) {
-                PlayerUtil.sendMessage(player, "&cError. Name too long.");
-                return;
-            }
+        if (event.getMessage().length() > 30) {
+            PlayerUtil.sendMessage(player, "&cError. Name too long.");
+            return;
+        }
 
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             if (Main.getInstance().getLastFmHandler().checkUsernameExists(username)) {
                 PlayerUtil.sendMessage(player, "&cThis account does not exist.");
                 return;
             }
 
-            Profile profile = Profile.getProfile(player.getUniqueId());
+            Profile profile = Profile.getProfile(player.getUniqueId().toString());
 
             if (profile.setLastFmUsername(username)) {
                 PlayerUtil.sendMessage(player, "&eYour lastfm username has been set to \"" + username + "\"");

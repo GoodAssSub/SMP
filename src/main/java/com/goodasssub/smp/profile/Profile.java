@@ -17,14 +17,14 @@ import java.util.concurrent.CompletableFuture;
 @Data
 public class Profile {
 
-    private final UUID uuid;
+    private final String uuid;
     private final String lastFmUsername;
 
     /*
         TODO: make profile mapper
      */
 
-    public static Profile getProfile(UUID uuid) {
+    public static Profile getProfile(String uuid) {
 
         MongoCollection<Document> profileCollection = Main.getInstance().getDatabase().getProfilesCollection();
         Document profileDocument = profileCollection.find(Filters.eq("uuid", uuid)).first();
