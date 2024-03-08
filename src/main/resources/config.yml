@@ -1,6 +1,15 @@
+mongodb:
+  uri: 'mongodb://localhost:27017'
+  database: 'smp'
+
+lastfm:
+  enabled: false
+  api-key: ''
+
 spawn:
   protection:
-    radius: 10 # Set to 0 for none
+    world: world
+    radius: 20 # Set to 0 for none
     message: "&cYou cannot do this in spawn protection!" # message sent when cancelling an event
 
 chat-format:
@@ -20,11 +29,11 @@ disable-tnt:
 
 scoreboard:
   enabled: true
-  title: "&cTitle &7| &fServer"
+  title: "&c&lGood Ass Sub"
   lines:
     - "&7&m                    "
-    - "&cOnline: &f%onlineplayers%"
-    #    - '&c{spawnprotection}!' Not implemented
+    - "&cOnline&7: &f%online-players%"
+    - '&cProtection&7: &f{spawnprotection}!'
     - ""
-    - "&7play.goodasssub.com"
+    - "&7play.goodasssub.com" # eventually just have play holder that shows server ip instead
     - "&7&m                    "
