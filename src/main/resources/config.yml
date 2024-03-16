@@ -29,7 +29,7 @@ chat:
 
 scoreboard:
   enabled: true
-  title: "<dark_red><b>Main" # no placeholder support
+  title: "<dark_red><b>SMP" # no placeholder support
   lines:
     - "<gray><st>                          <reset> "
     - "<red>Online<gray>: <reset><players>"

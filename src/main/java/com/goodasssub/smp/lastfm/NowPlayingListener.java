@@ -86,9 +86,7 @@ public class NowPlayingListener implements Listener {
                 List<String> nowPlaying = Main.getInstance().getOtherConfigs().getMessages().getStringList("lastfm.now-playing");
 
                 for (String string : nowPlaying) {
-                    if (!trackName.equals(albumName)) {
-                        albumName = "None";
-                    }
+                    string = string.replace("<lastfm-username>", profile.getLastFmUsername());
                     string = string.replace("<player>", player.getName());
                     string = string.replace("<track-name>", trackName);
                     string = string.replace("<artist-name>", artistName);

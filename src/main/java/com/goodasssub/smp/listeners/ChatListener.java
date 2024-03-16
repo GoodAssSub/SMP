@@ -28,12 +28,11 @@ public class ChatListener implements Listener {
 
             Component deserialized = MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(source, chatMessage));
 
-            TextReplacementConfig.Builder builder = TextReplacementConfig.builder();
-
-            builder.matchLiteral("<message>").replacement(message);
-            builder.matchLiteral("<player>").replacement(sourceDisplayName);
-
-            return deserialized.replaceText(builder.build());
+            TextReplacementConfig.Builder messageReplace = TextReplacementConfig.builder();
+            TextReplacementConfig.Builder playerReplace = TextReplacementConfig.builder();
+            messageReplace.matchLiteral("<message>").replacement(message);
+            playerReplace.matchLiteral("<player>").replacement(sourceDisplayName);
+            return deserialized.replaceText(messageReplace.build()).replaceText(playerReplace.build());
         });
     }
 }

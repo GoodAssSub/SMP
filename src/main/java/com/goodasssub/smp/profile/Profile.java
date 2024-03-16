@@ -47,7 +47,7 @@ public class Profile {
 
     public boolean setLastFmUsername(String userName) {
         MongoCollection<Document> profileCollection = Main.getInstance().getDatabase().getProfilesCollection();
-        Document profileFMWithName = profileCollection.find(Filters.eq("lastFmUsername", userName)).first();
+        Document profileFMWithName = profileCollection.find(Filters.regex("lastFmUsername", "^" + userName + "$", "i")).first();
 
         if (profileFMWithName != null) {
             return false;

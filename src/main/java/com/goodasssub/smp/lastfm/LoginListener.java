@@ -13,6 +13,9 @@ import org.bukkit.event.Listener;
 
 public class LoginListener implements Listener {
 
+
+    // TODO: FIX CONSOLE SPAM?
+
     @EventHandler
     public void onBlockPlaceEvent(AsyncChatEvent event) {
         Player player = event.getPlayer();
@@ -41,9 +44,11 @@ public class LoginListener implements Listener {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            if (Main.getInstance().getLastFmHandler().checkUsernameExists(username)) {
+            if (!Main.getInstance().getLastFmHandler().checkUsernameExists(username)) {
                 if (errorMessage == null) return;
                 player.sendMessage(mm.deserialize(errorMessage.replace("<reason>", "This account does not exist")));
+                event.setCancelled(true);
+                return;
             }
 
             Profile profile = Profile.getProfile(player.getUniqueId());
@@ -57,6 +62,7 @@ public class LoginListener implements Listener {
 
             String alreadyUsed = Main.getInstance().getOtherConfigs().getMessages().getString("lastfm.name-already-used");
             if (alreadyUsed == null) return;
+            event.setCancelled(true);
             player.sendMessage(mm.deserialize(alreadyUsed));
         });
     }

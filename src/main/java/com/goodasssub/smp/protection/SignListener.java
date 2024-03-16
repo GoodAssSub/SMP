@@ -3,6 +3,7 @@ package com.goodasssub.smp.protection;
 import com.goodasssub.smp.Main;
 import io.papermc.paper.event.player.PlayerOpenSignEvent;
 import net.coreprotect.CoreProtectAPI;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,9 +14,11 @@ public class SignListener implements Listener {
     @EventHandler
     public void onPlayerOpenSign(PlayerOpenSignEvent event) {
         if (!Main.getInstance().getConfig().getBoolean("protection.sign.prevent-edit-others")) return;
-        if (event.getSign().getWorld().getName().equals("world")) return; // fuckkkiitt we assume its world out here gangy
-        if (!event.getCause().equals(PlayerOpenSignEvent.Cause.INTERACT)) return;
+        //if (event.getSign().getWorld().getName().equals("world")) return; // fuckkkiitt we assume its world out here gangy
+        if (event.getCause() != PlayerOpenSignEvent.Cause.INTERACT) return;
 
+
+        event.getPlayer().sendMessage(Component.text(event.getCause().toString()));
         CoreProtectAPI coreProtect = Main.getInstance().getCoreProtect();
         if (coreProtect == null) return;
 

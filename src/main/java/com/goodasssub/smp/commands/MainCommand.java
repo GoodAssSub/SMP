@@ -34,6 +34,7 @@ public class MainCommand implements CommandExecutor {
             sender.sendMessage(mm.deserialize("<green>Config Reloading...</green>"));
             long startTime = System.currentTimeMillis();
             Main.getInstance().reloadConfig();
+            Main.getInstance().getOtherConfigs().loadOtherConfigs();
             long endTime = System.currentTimeMillis();
             sender.sendMessage(mm.deserialize("<green>&eConfig reloaded after " + (endTime - startTime) + "ms</green>"));
             return true;

@@ -14,6 +14,10 @@ public class ProtectionHandler {
             Main.getInstance().getLogger().info("Initializing TNT Protection...");
             Main.getInstance().getServer().getPluginManager().registerEvents(new TNTListener(), Main.getInstance());
         }
+        if (Main.getInstance().getConfig().getBoolean("protection.sign.prevent-edit-others")) {
+            Main.getInstance().getLogger().info("Initializing Sign Protection...");
+            Main.getInstance().getServer().getPluginManager().registerEvents(new SignListener(), Main.getInstance());
+        }
     }
 
     // Should I makes this non-static :thinking:
