@@ -37,6 +37,7 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
 
         getLogger().info("Initializing other config...");
+        otherConfigs = new OtherConfigs();
         otherConfigs.loadOtherConfigs();
         otherConfigs.saveOtherConfigs();
 
