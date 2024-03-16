@@ -1,9 +1,11 @@
-package com.goodasssub.smp.lastfm.listeners;
+package com.goodasssub.smp.lastfm;
 
 import com.goodasssub.smp.Main;
 import com.goodasssub.smp.profile.Profile;
-import com.goodasssub.smp.util.CC;
-import com.goodasssub.smp.util.PlayerUtil;
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,27 +13,36 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.List;
 
 public class NowPlayingListener implements Listener {
 
     @EventHandler
-    public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
-        String message = event.getMessage();
+    public void onAsyncPlayerChatEvent(AsyncChatEvent event) {
+        Component component = event.message();
+        String message = PlainTextComponentSerializer.plainText().serialize(component);
+
         if (!message.equals(".fm") && !message.equals(",fm") && !message.equals(".np") && !message.equals(",np")) return;
 
         Player player = event.getPlayer();
+
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            Profile profile = Profile.getProfile(player.getUniqueId().toString());
+            Profile profile = Profile.getProfile(event.getPlayer().getUniqueId());
+            String errorMessage = Main.getInstance().getOtherConfigs().getMessages().getString("lastfm.error");
+            var mm = MiniMessage.miniMessage();
 
             if (profile.getLastFmUsername() == null) {
-                PlayerUtil.sendMessage(player, "&cYou do not have a lastfm username set. \nSet it with .login <username>");
+                String noNameMessage = Main.getInstance().getOtherConfigs().getMessages().getString("lastfm.no-name-set");
+                if (noNameMessage != null) {
+                    player.sendMessage(mm.deserialize(noNameMessage));
+                }
+
                 event.setCancelled(true);
                 return;
             }
@@ -47,10 +58,15 @@ public class NowPlayingListener implements Listener {
                 .url(url)
                 .build();
 
+
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful() || response.body() == null) {
-                    event.setCancelled(true);
-                    PlayerUtil.sendMessage(player, "&cError getting your most recent track. No API response.");
+                    if (errorMessage == null) {
+                        event.setCancelled(true);
+                        return;
+                    }
+
+                    player.sendMessage(mm.deserialize(errorMessage.replace("<reason>", "No API response")));
                     return;
                 }
 
@@ -67,26 +83,27 @@ public class NowPlayingListener implements Listener {
                 String artistName = (String) artist.get("#text");
                 String albumName = (String) album.get("#text");
 
-                StringBuilder stringBuilder = new StringBuilder();
+                List<String> nowPlaying = Main.getInstance().getOtherConfigs().getMessages().getStringList("lastfm.now-playing");
 
-                //event.setMessage(event.getMessage());
+                for (String string : nowPlaying) {
+                    if (!trackName.equals(albumName)) {
+                        albumName = "None";
+                    }
+                    string = string.replace("<player>", player.getName());
+                    string = string.replace("<track-name>", trackName);
+                    string = string.replace("<artist-name>", artistName);
+                    string = string.replace("<album-name>", albumName);
 
-                stringBuilder.append("\n");
-                stringBuilder.append("&f&lUser&7: &6")
-                    .append(profile.getLastFmUsername())
-                    .append(" &7(").append(player.getDisplayName()).append(")").append("\n");
-                stringBuilder.append("&f&lTrack&7: &6").append(trackName).append("\n");
-                stringBuilder.append("&f&lArtist&7: &6").append(artistName).append("\n");
-                if (!trackName.equals(albumName)) {
-                    stringBuilder.append("&f&lAlbum&7: &6").append(albumName);
+                    Bukkit.broadcast(mm.deserialize(string));
                 }
-                stringBuilder.append("\n");
-
-                Bukkit.getServer().broadcastMessage(CC.translate(stringBuilder.toString()));
             } catch (IOException | ParseException e) {
-                event.setCancelled(true);
-                PlayerUtil.sendMessage(player, "&cError getting your most recent track. API failed.");
                 e.printStackTrace();
+                if (errorMessage == null) {
+                    event.setCancelled(true);
+                    return;
+                }
+
+                player.sendMessage(mm.deserialize(errorMessage.replace("<reason>", "API Failed")));
             }
         });
     }

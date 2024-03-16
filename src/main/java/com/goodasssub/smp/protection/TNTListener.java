@@ -1,7 +1,7 @@
-package com.goodasssub.smp.listeners;
+package com.goodasssub.smp.protection;
 
 import com.goodasssub.smp.Main;
-import com.goodasssub.smp.util.CC;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -30,12 +30,14 @@ public class TNTListener implements Listener {
         if (tntWorldNotInConfig(event.getBlock().getLocation().getWorld())) return;
 
         if (event.getBlock().getType().equals(Material.TNT)) {
-            event.getPlayer().sendMessage(CC.translate(Main.getInstance().getConfig().getString("disable-tnt.message")));
+            String message = Main.getInstance().getOtherConfigs().getMessages().getString("protection.disable-tnt");
+            if (message == null) return;
+            event.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize(message));
         }
     }
 
     private boolean tntWorldNotInConfig(World world) {
-        List<String> worldNames = Main.getInstance().getConfig().getStringList("disable-tnt.worlds");
+        List<String> worldNames = Main.getInstance().getConfig().getStringList("protection.disable-tnt.worlds");
         return !worldNames.contains(world.getName());
     }
 }

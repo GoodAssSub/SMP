@@ -20,8 +20,7 @@ public class Database {
             this.database = this.client.getDatabase(databaseName);
             this.profilesCollection = this.database.getCollection("profiles");
         } catch (Exception e) {
-            e.printStackTrace();
-            Main.getInstance().getLogger().severe("Error connecting to mongodb!");
+            Main.getInstance().getLogger().severe("Error connecting to mongodb!\n" + e);
             System.exit(0);
         }
     }

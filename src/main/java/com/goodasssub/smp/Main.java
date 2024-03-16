@@ -3,29 +3,25 @@ package com.goodasssub.smp;
 import com.goodasssub.smp.commands.MainCommand;
 import com.goodasssub.smp.database.Database;
 import com.goodasssub.smp.lastfm.LastFmHandler;
-import com.goodasssub.smp.lastfm.listeners.LoginListener;
-import com.goodasssub.smp.lastfm.listeners.NowPlayingListener;
-import com.goodasssub.smp.listeners.TNTListener;
 import com.goodasssub.smp.listeners.ChatListener;
-import com.goodasssub.smp.scoreboard.ScoreboardAdapter;
-import com.goodasssub.smp.listeners.SpawnProtectionListener;
-import io.github.thatkawaiisam.assemble.Assemble;
-import io.github.thatkawaiisam.assemble.AssembleStyle;
+import com.goodasssub.smp.profile.listeners.ProfileListener;
+import com.goodasssub.smp.scoreboard.Scoreboard;
 
+import com.goodasssub.smp.util.OtherConfigs;
 import lombok.Getter;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
 
 public final class Main extends JavaPlugin {
 
     @Getter private static Main instance;
 
+    @Getter private OtherConfigs otherConfigs;
     @Getter private Database database;
     @Getter private LastFmHandler lastFmHandler;
+    @Getter private Scoreboard scoreboard;
 
     @Override
     public void onEnable() {
@@ -36,21 +32,21 @@ public final class Main extends JavaPlugin {
             TODO: adventure api support for minimessages
         */
 
-        // Config
-        getLogger().info("Initializing Config...");
+        // OtherConfigs
+        getLogger().info("Initializing config...");
         saveDefaultConfig();
 
+        getLogger().info("Initializing other config...");
+        otherConfigs.loadOtherConfigs();
+        otherConfigs.saveOtherConfigs();
+
         // Listeners
-        getLogger().info("Initializing Listeners...");
-        if (getConfig().getBoolean("disable-tnt.enabled")) {
-            getServer().getPluginManager().registerEvents(new TNTListener(), this);
-        }
-        if (getConfig().getInt("spawn.protection.radius") > 0) {
-            getServer().getPluginManager().registerEvents(new SpawnProtectionListener(), this);
-        }
-        if (getConfig().getBoolean("chat-format.enabled")) {
+        if (getConfig().getBoolean("chat.enabled")) {
             getServer().getPluginManager().registerEvents(new ChatListener(), this);
+            getLogger().info("Added Chat Listener...");
         }
+
+        //TODO: i assume right now this needs to be enabled for the plugin to work
         if (getConfig().getBoolean("lastfm.enabled")) {
             this.lastFmHandler = new LastFmHandler(getConfig().getString("lastfm.api-key"));
         }
@@ -61,21 +57,39 @@ public final class Main extends JavaPlugin {
         // Scoreboard
         if (getConfig().getBoolean("scoreboard.enabled")) {
             getLogger().info("Initializing Scoreboard...");
-            Assemble assemble = new Assemble(this, new ScoreboardAdapter());
-            assemble.setTicks(20);
-            assemble.setAssembleStyle(AssembleStyle.MODERN);
+            scoreboard = new Scoreboard();
         }
 
+        // MongoDB
         getLogger().info("Connecting to mongodb...");
         this.database = new Database(
             getConfig().getString("mongodb.uri"),
             getConfig().getString("mongodb.database")
         );
+
+        // Profiles
+        getLogger().info("Initializing Profiles...");
+        Main.getInstance().getServer().getPluginManager().registerEvents(new ProfileListener(), this);
     }
 
     @Override
     public void onDisable() {
         getLogger().info("Disconnecting from mongodb...");
         this.database.stop();
+    }
+
+    public CoreProtectAPI getCoreProtect() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
+
+        if (!(plugin instanceof CoreProtect)) {
+            return null;
+        }
+
+        CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
+        if (!CoreProtect.isEnabled()) {
+            return null;
+        }
+
+        return CoreProtect;
     }
 }

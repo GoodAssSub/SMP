@@ -1,39 +1,39 @@
 mongodb:
-  uri: 'mongodb://localhost:27017'
-  database: 'smp'
+  uri: "mongodb://localhost:27017"
+  database: "smp"
 
 lastfm:
   enabled: false
-  api-key: ''
+  api-key: ""
 
-spawn:
-  protection:
-    world: world
-    radius: 20 # Set to 0 for none
-    message: "&cYou cannot do this in spawn protection!" # message sent when cancelling an event
+protection:
+  spawn:
+    enabled: true
+    world: "world"
+    radius: 10 # Set to 0 for none
+  disable-tnt:
+    enabled: true
+    worlds: # Name of folder
+      - "world"
+  sign:
+    prevent-edit-others: true # Disable editing signs that arent yours
 
-chat-format:
+
+chat:
   enabled: true
-  player-message: "placeholder"
-  join-message: "placeholder"
-  leave-message: "placeholder"
+  format: "%luckperms_prefix%<player> <gray>(<red>@%discordsrv_user_name%<gray>)<white>:<reset> <message>"
 
-disable-tnt:
-  enabled: true
-  message: ""
-  worlds: # Name of folder
-    - "world"
-
-# placeholders
-# {spawnprotection}: equals true if player has spawn protection
+# format: https://docs.advntr.dev/minimessage/format.html
+# plugin placeholders:
+# <spawn-protection> if the player is within spawn radius
 
 scoreboard:
   enabled: true
-  title: "&c&lGood Ass Sub"
+  title: "<dark_red><b>Main" # no placeholder support
   lines:
-    - "&7&m                    "
-    - "&cOnline&7: &f%online-players%"
-    - '&cProtection&7: &f{spawnprotection}!'
-    - ""
-    - "&7play.goodasssub.com" # eventually just have play holder that shows server ip instead
-    - "&7&m                    "
+    - "<gray><st>                          <reset> "
+    - "<red>Online<gray>: <reset><players>"
+    - "<red>Protection<gray>: <reset><spawn-protection>"
+    - "<reset>"
+    - "<gray>play.goodasssub.com"
+    - "<gray><st>                          <reset> "

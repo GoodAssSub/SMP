@@ -8,36 +8,42 @@ import com.mongodb.client.model.UpdateOptions;
 import lombok.Data;
 
 import org.bson.Document;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @Data
 public class Profile {
 
     private final String uuid;
+    private final long lastOnline;
     private final String lastFmUsername;
 
     /*
         TODO: make profile mapper
      */
 
-    public static Profile getProfile(String uuid) {
+    public static Profile getProfile(UUID uuid) {
+        String uuidString = uuid.toString();
 
         MongoCollection<Document> profileCollection = Main.getInstance().getDatabase().getProfilesCollection();
         Document profileDocument = profileCollection.find(Filters.eq("uuid", uuid)).first();
 
         if (profileDocument == null) {
-            Document uniqueId = new Document("uuid", uuid);
-            profileCollection.insertOne(uniqueId);
+            List<Document> documents = new ArrayList<>();
+            documents.add(new Document("uuid", uuid));
+            profileCollection.insertMany(documents);
 
-            return new Profile(uuid, null);
+            return new Profile(uuidString, 0, null);
         }
 
-        return new Profile(uuid, profileDocument.getString("lastFmUsername"));
+        return new Profile(uuidString,
+            profileDocument.getLong("lastOnline") != null ? profileDocument.getLong("lastOnline") : 0,
+            profileDocument.getString("lastFmUsername")
+        );
     }
+
 
     public boolean setLastFmUsername(String userName) {
         MongoCollection<Document> profileCollection = Main.getInstance().getDatabase().getProfilesCollection();
@@ -54,5 +60,19 @@ public class Profile {
         profileCollection.updateOne(filter, update, options);
 
         return true;
+    }
+
+    public void setLastOnlineTime(long time) {
+        MongoCollection<Document> profileCollection = Main.getInstance().getDatabase().getProfilesCollection();
+
+        Document filter = new Document("uuid", this.uuid);
+        Document update = new Document("$set", new Document("lastOnline", time));
+        UpdateOptions options = new UpdateOptions().upsert(true);
+
+        profileCollection.updateOne(filter, update, options);
+    }
+
+    public static long totalProfiles() {
+        return Main.getInstance().getDatabase().getProfilesCollection().countDocuments();
     }
 }

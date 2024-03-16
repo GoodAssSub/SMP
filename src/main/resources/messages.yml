@@ -1,0 +1,29 @@
+# <player> = player name
+
+protection:
+  spawn: "<red>You cannot do this in spawn protection!</red>"
+  disable-tnt: "<red>You cant use tnt in this world!</red>"
+  prevent-edit-others: "<red>You can only edit your own signs!</red>"
+
+chat:
+  first-join-message: "<red><player> <white>has joined for the first time! <gray>[#<unique-players>]"
+  join-message: "<gray>[<green>+<gray>] <white><player>"
+  leave-message: "<gray>[<red>-<gray>] <white><player>"
+
+# now playing placeholders
+# <track-name> name of the track
+# <artist-name> name of the track (if none = "None")
+# <track-album> name of the track
+
+lastfm:
+  username-set: "<green>Your lastfm username has been set to <lastfm-username></green>"
+  now-playing:
+    - "<reset>"
+    - "<white><bold>User<gray>: <gold><lastfm-username> <gray>(<player>)"
+    - "<white><bold>Track<gray>: <gold><track-name>"
+    - "<white><bold>Album<gray>: <gold><album-name>"
+    - "<white><bold>Artist<gray>: <gold><artist-name>"
+    - "<reset>"
+  no-name-set: "<red>You do not have a lastfm username set. <newline>Set it with .login <username></red>"
+  name-already-used: "<red>Someone else on the server already has that username set.</red>"
+  error: "<red>LastFM Error. <reason>.</red>"
