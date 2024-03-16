@@ -18,6 +18,8 @@ protection:
   sign:
     prevent-edit-others: true # Disable editing signs that arent yours
 
+join-message:
+  enabled: true
 
 chat:
   enabled: true

@@ -4,6 +4,7 @@ import com.goodasssub.smp.commands.MainCommand;
 import com.goodasssub.smp.database.Database;
 import com.goodasssub.smp.lastfm.LastFmHandler;
 import com.goodasssub.smp.listeners.ChatListener;
+import com.goodasssub.smp.listeners.JoinListener;
 import com.goodasssub.smp.profile.listeners.ProfileListener;
 import com.goodasssub.smp.scoreboard.Scoreboard;
 
@@ -45,6 +46,11 @@ public final class Main extends JavaPlugin {
         if (getConfig().getBoolean("chat.enabled")) {
             getServer().getPluginManager().registerEvents(new ChatListener(), this);
             getLogger().info("Added Chat Listener...");
+        }
+
+        if (getConfig().getBoolean("join-message.enabled")) {
+            getServer().getPluginManager().registerEvents(new JoinListener(), this);
+            getLogger().info("Added Join Listener...");
         }
 
         //TODO: i assume right now this needs to be enabled for the plugin to work

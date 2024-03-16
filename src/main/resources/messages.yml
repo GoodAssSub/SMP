@@ -10,6 +10,11 @@ chat:
   join-message: "<gray>[<green>+<gray>] <white><player>"
   leave-message: "<gray>[<red>-<gray>] <white><player>"
 
+join-message:
+  - ""
+  - ""
+  - ""
+
 # now playing placeholders
 # <track-name> name of the track
 # <artist-name> name of the track (if none = "None")

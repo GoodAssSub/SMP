@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatListener implements Listener {
     @EventHandler
-    public void onChat(AsyncChatEvent event) {
+    public void onAsyncChat(AsyncChatEvent event) {
         event.renderer((source, sourceDisplayName, message, viewer) -> {
             String chatMessage = Main.getInstance().getConfig().getString("chat.format");
 
