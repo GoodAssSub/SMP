@@ -28,11 +28,11 @@ public class Profile {
         String uuidString = uuid.toString();
 
         MongoCollection<Document> profileCollection = Main.getInstance().getDatabase().getProfilesCollection();
-        Document profileDocument = profileCollection.find(Filters.eq("uuid", uuid)).first();
+        Document profileDocument = profileCollection.find(Filters.eq("uuid", uuidString)).first();
 
         if (profileDocument == null) {
             List<Document> documents = new ArrayList<>();
-            documents.add(new Document("uuid", uuid));
+            documents.add(new Document("uuid", uuidString));
             profileCollection.insertMany(documents);
 
             return new Profile(uuidString, 0, null);

@@ -1,9 +1,9 @@
-name: Main
+name: SMP
 version: '${project.version}'
 main: com.goodasssub.smp.Main
 api-version: '1.20'
 authors: [BotMert]
-description: Main Plugin for play.goodasssub.com
+description: SMP Plugin for play.goodasssub.com
 depend: [PlaceholderAPI, CoreProtect]
 commands:
   smp:
